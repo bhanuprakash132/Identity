@@ -1,0 +1,40 @@
+﻿@model IEnumerable<LearnIdentity.ViewModels.MenuPermissionMappingViewModel>
+
+    <li class="nav-item">
+        <a href="/Home/Index" class="nav-link">
+            <i class="fas fa-circle nav-icon"></i>
+            <p>@ViewBag.RoleName</p>
+        </a>
+    </li>
+@{foreach (var item in Model.GroupBy(m => m.ParentId).ToList())
+    {
+
+        foreach (var firstItem in (Model.Where(p => p.ParentId == item.FirstOrDefault().ParentId).ToList()))
+        {
+            @if (firstItem.ParentId==0)
+            {
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="fas fa-circle nav-icon"></i>
+                        <p>@firstItem.Name</p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @*}*@
+                        @foreach (var secondItem in (Model.Where(s => s.ParentId == firstItem.Id).ToList()))
+                        {
+                            <li class="nav-item">
+                                <a href="" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>@secondItem.Name</p>
+                                </a>
+
+                            </li>
+                        }
+                    </ul>
+
+                </li>
+            }
+        }
+
+    }
+}
